@@ -1,9 +1,6 @@
 import 'dart:async';
-
 import 'package:bloc/bloc.dart';
-import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:meta/meta.dart';
 import 'package:mini_projet_bloc/api/api_services.dart';
 import 'package:mini_projet_bloc/models/student_model.dart';
 part 'add_student_event.dart';
@@ -34,29 +31,48 @@ class StudentBloc extends Bloc<StudentEvent, AddStudentState> {
 
 
 
-     on<GetAllStudentsEvent>((event, emit)async {
+  on<GetAllStudentsEvent>((event, emit) async {
+  try {
+    emit(StudentLoading());
+    final List<Student> students = await api.getAllStudents();
+    if (students.isEmpty) {
+      emit(EmptyStudentState());
+    } else {
+      emit(FechAllStudents(student: students));
+    }
+  } catch (e) {
+    emit(ErrorStudentState(errorMsg: 'Error: $e'));
+  }
+ });
 
-      try {
-        emit(LoadingStudents());
-        final List<Student> student=await api.getAllStudents();
-        emit(FechAllStudents(student: student, ));
-        
-      } catch (e) {
-        emit(ErrorStudentState(errorMsg: 'Error$e'));
-      }
-     });
 
-
-     on<EditStudentEvent>((event, emit)async{
+     on<EditStudentEvent>((event, emit)async{ 
       await api.editStudent(event.studentId, event.student);
       final List <Student> updatedStudent=await api.getAllStudents();
       emit(FechAllStudents(student: updatedStudent));
 
      });
-
      
+ 
+    on<SearchStudentEvent>((event, emit) async {
+  try {
+    if (event.searchQuery.isEmpty) {
+      emit(StudentLoading());
+      final List<Student> student = await api.getAllStudents();
+      emit(FechAllStudents(student: student));
+    } else {
+      emit(StudentLoading());
+      final List<Student> updatedStudent = await api.searchStudent(event.searchQuery);
+      emit(FechAllStudents(student: updatedStudent));
+    }
+  } catch (e) {
+    
+    emit(ErrorStudentState(errorMsg: 'Error: $e'));
    
   }
+});
+    
+  } 
     
 
 

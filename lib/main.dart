@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mini_projet_bloc/presentation/home/screen_home.dart';
+import 'package:mini_projet_bloc/testing/bloc/counter_bloc.dart';
 
 import 'presentation/bloc/add_student_bloc.dart';
 
@@ -15,11 +16,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) { 
     return  MultiBlocProvider(
       providers: [ 
-        BlocProvider(create: (context) =>StudentBloc()),
         
+        BlocProvider(create: (context) =>StudentBloc()),
+        BlocProvider(create: (context) =>CounterBloc()),
       ],
       child: MaterialApp(
-        debugShowCheckedModeBanner: false,
+        debugShowCheckedModeBanner:false, 
         theme: ThemeData.dark(), 
         home:  ScreenHome(),
       ),

@@ -1,7 +1,7 @@
 part of 'add_student_bloc.dart';
 
-@immutable
-sealed class StudentEvent {}
+
+ class StudentEvent {}
 
 
 
@@ -30,5 +30,10 @@ class DeleteStudentEvent extends StudentEvent{
  final int studentId;
 
   DeleteStudentEvent({required this.studentId});
+}
+class SearchStudentEvent extends StudentEvent{
+  final String searchQuery;
+
+  SearchStudentEvent({required this.searchQuery});
 }
  

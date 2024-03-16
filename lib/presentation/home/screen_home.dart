@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mini_projet_bloc/models/student_model.dart';
 import 'package:mini_projet_bloc/presentation/all_students/screen_all_students.dart';
+import 'package:mini_projet_bloc/testing/temp.dart';
 import '../../constant/constant.dart';
 import '../bloc/add_student_bloc.dart';
 import 'widgets/text_formfild.dart';
@@ -39,7 +40,12 @@ class ScreenHome extends StatelessWidget {
             ),
           ],
           centerTitle: true, 
-          title:const Text('Add Student'),
+          title:GestureDetector(
+            onTap: () {
+              kPushNavigation(context,const Temp());
+            },
+            child: const Text('Add Student')
+            ),
            
         ),
         body: SingleChildScrollView(
@@ -70,7 +76,7 @@ class ScreenHome extends StatelessWidget {
                        backgroundImage:const NetworkImage('https://i.pinimg.com/564x/4d/ec/b4/4decb460e5d38ea8e756ac1cc29f008a.jpg'),          
                      )
                     
-                   ],
+                   ], 
                  );
                }, 
              ),
@@ -117,7 +123,7 @@ class ScreenHome extends StatelessWidget {
                           onPressed: () async { 
                   if (_formKey.currentState!.validate()){
                     if(state is ImagePicking ){
-                      context.read<StudentBloc>().add(CreateStudentEvent( 
+                      context.read<StudentBloc>().add(CreateStudentEvent(
                         Student(name: namecontroller.text, rollNo: rollNocontroller.text, age: ageController.text, department: departmentcontroller.text, phone: phNocontroller.text, image:state.imagepath)
                       ));
                     }

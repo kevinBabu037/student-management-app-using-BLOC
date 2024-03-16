@@ -51,7 +51,7 @@ class Student {
     return Student(
       age:age?? this.age,
       department: department?? this.department,
-        name: name ?? this.name,
+      name: name ?? this.name,
        phone: phone ??this. phone,
        rollNo: rollNo?? this.rollNo);
 

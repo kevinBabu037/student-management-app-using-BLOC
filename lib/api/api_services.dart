@@ -140,6 +140,32 @@ Future<void> editStudent(int studentId, Student updatedStudent) async {
 }
 
 
+/////////////
+
+
+
+ Future<List<Student>> searchStudent(String searchQurey) async {
+    final url = Uri.parse("http://studentapp.ashkar.tech/search?q=$searchQurey");
+    final headers = {
+      "x-api-key": "apikey@studentapp",
+    };  
+
+    try {
+      final response = await http.get(url, headers: headers); 
+      if (response.statusCode == 200) {
+        final List<dynamic> jsonList = jsonDecode(response.body)['after exicution'];
+        List<Student> students = jsonList.map((json) => Student.fromJson(json)).toList();
+        return students;
+      } else {
+        throw Exception("Something went wrong");
+      }
+    } catch (e) { 
+      debugPrint(e.toString());
+      throw Exception("Failed to fetch students: $e");
+    }
+  }
+
+
 
 
   
